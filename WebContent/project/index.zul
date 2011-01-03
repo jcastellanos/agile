@@ -1,0 +1,54 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<window id="win" title="Proyectos" width="100%" border="normal" apply="co.developerzone.agile.controller.ProjectController">
+	<menubar>
+	    <menu label="Proyecto">
+	        <menupopup>
+	            <menuitem id="nuevo" label="Nuevo" tooltiptext="Crear un nuevo proyecto" />	        
+	            <menuitem id="eliminar" label="Eliminar" tooltiptext="Eliminar proyecto" />
+	            <menuseparator/>
+	            <menuitem label="Menú principal" href="/"/>
+	            <menuseparator/>
+	            <menuitem label="Salir" href="/j_spring_security_logout"/>
+	        </menupopup>
+	    </menu>
+	    <menuitem label="Buscar" />
+	    <menu label="Ayuda">
+	        <menupopup>
+	            <menuitem label="Indice"/>
+	            <menu label="Acerca de">
+	                <menupopup>
+	                    <menuitem label="Acerca de Platero"/>
+	                </menupopup>
+	            </menu>
+	        </menupopup>
+	    </menu>
+	</menubar>
+	<menupopup id="proyectoMenuPopup"> 
+		<menuitem label="Nuevo" forward="onClick=nuevo.onClick" tooltiptext="Crear un nuevo proyecto" /> 
+		<menuitem label="Eliminar" forward="onClick=eliminar.onClick" tooltiptext="Eliminar proyecto"/>
+	</menupopup>
+	<listbox id="box" multiple="true" rows="10" model="@{win$composer.allItems, load-after='save.onClick, eliminar.onClick, paging.onPaging'}" 
+		selectedItem="@{win$composer.current}">
+		<listhead>
+			<listheader label="Código" width="10%"/>
+			<listheader label="Nombre"  width="40%"/>
+			<listheader label="Descripción" width="50%"/>
+		</listhead>		
+		<listitem self="@{each='item'}" value="@{item}" context="proyectoMenuPopup">			
+			<listcell label="@{item.code}" />
+			<listcell label="@{item.nombre}" />
+			<listcell label="@{item.descripcion}" />
+		</listitem>
+	</listbox>
+	<paging id="paging" />	
+	
+
+	<groupbox width="97%">
+		<caption label="Proyecto" />
+		ID: <intbox id="id" cols="4" readonly="true"  />
+		Código: <textbox id="code" cols="15" readonly="true" maxlength="50" constraint="no empty"/>
+		Nombre: <textbox id="name" cols="30" readonly="true" maxlength="200" constraint="no empty"/>
+		Descripción: <textbox id="description" cols="30" readonly="true" maxlength="200" constraint="no empty"/>
+	</groupbox>
+	<button id="save" label="Guardar" width="36px" height="24px" disabled="true" />
+</window>

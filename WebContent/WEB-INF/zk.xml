@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Created by ZK Studio
+-->
+
+<zk>
+	<device-config>
+		<device-type>ajax</device-type>
+		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the browser to reload the same URL -->
+	</device-config>
+	<preference>
+		<name>JpaUtil.PersistenceUnitName</name>
+		<value>agilePU</value>//The persistence unit name which is defined in persistence.xml
+	</preference>
+</zk>

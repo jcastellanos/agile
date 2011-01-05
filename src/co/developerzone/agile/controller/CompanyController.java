@@ -42,7 +42,8 @@ public class CompanyController extends GenericForwardComposer {
 			super.doAfterCompose(comp);
 			// Cargamos la cantidad de campuseros en el paginador
 			paging.setPageSize(registrosPorPagina);
-			paging.setTotalSize(CompanyService.countAll());
+			HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
+			paging.setTotalSize(CompanyService.countAll(request));
 			paging.addEventListener("onPaging", new EventListener() {
 				public void onEvent(Event event) throws Exception {
 					// TODO Auto-generated method stub
@@ -76,8 +77,9 @@ public class CompanyController extends GenericForwardComposer {
 	}
 	
 	public List<Company> getAllItems() {	
+		HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
 		int inicio = paginaActual * registrosPorPagina;
-		return CompanyService.findAll(inicio, registrosPorPagina);
+		return CompanyService.findAll(request, inicio, registrosPorPagina);
 	}
 	
 	public void onClick$nuevo() {	
@@ -87,20 +89,16 @@ public class CompanyController extends GenericForwardComposer {
 		name.setFocus(true);		
 	}
 
-	public void onClick$save() {		 
-		User usuario = UserService.getLoggedUser((HttpServletRequest)Executions.getCurrent().getNativeRequest());
+	public void onClick$save() {	
+		HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
 		if(current == null || current.getId() == null) {
-			current = new Company();
-			current.setOwner(usuario);
-			current.setCreated(new Date());
-			
-			
+			current = new Company();			
 		}	
 		current.setName(name.getValue());
 		
 		if(current != null) {
 			try {
-				current = CompanyService.save(current);
+				current = CompanyService.save(request, current);
 				save.setDisabled(true);
 			} catch(javax.persistence.RollbackException rEx) {
 				if(rEx.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {

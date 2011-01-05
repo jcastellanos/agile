@@ -1,6 +1,7 @@
 package co.developerzone.agile.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,6 +27,8 @@ public class AcceptanceTest implements Serializable {
 	private static final long serialVersionUID = 5304631356292531095L;
 	private Integer id;
 	private String test;
+	private Date created;
+	private User owner;
 	private StoryCard storyCard;
 	
 	public void setId(Integer id) {
@@ -46,6 +49,26 @@ public class AcceptanceTest implements Serializable {
 	@Column(nullable = true, columnDefinition="TEXT")
 	public String getTest() {
 		return test;
+	}
+	
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+	@Column(nullable = false, columnDefinition="TIMESTAMP WITH TIME ZONE")
+	public Date getCreated() {
+		return created;
+	}	
+	
+	public void setOwner(User owner) {
+		if(owner != null) {
+			this.owner = owner;
+		}	
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="owner_id", nullable = false)
+	public User getOwner() {
+		return this.owner;
 	}
 	
 	public void setStoryCard(StoryCard storyCard) {

@@ -75,7 +75,7 @@ public class Company implements Serializable {
 		this.projects = projects;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "company")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
 	@OrderBy("name")
 	public Set<Project> getProjects() {
 		return projects;

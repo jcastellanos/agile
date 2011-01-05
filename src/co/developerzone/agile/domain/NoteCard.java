@@ -25,10 +25,10 @@ public class NoteCard implements Serializable {
 	private static final long serialVersionUID = 5373331051160643056L;
 	private Integer id;
 	private String note;
-	private Date fechaCreacion;
-	private User propietario;
+	private Date created;
+	private User owner;
 	
-	private Set<StoryCard> stories = new HashSet<StoryCard>();
+	private Set<StoryCard> storyCards = new HashSet<StoryCard>();
 	
 	public void setId(Integer id) {
 		this.id = id;
@@ -50,35 +50,35 @@ public class NoteCard implements Serializable {
 		return note;
 	}
 	
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
-	@Column(name="fecha_creacion", nullable = false, columnDefinition="TIMESTAMP WITH TIME ZONE")
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	@Column(nullable = false, columnDefinition="TIMESTAMP WITH TIME ZONE")
+	public Date getCreated() {
+		return created;
 	}
 	
-	public void setPropietario(User propietario) {
-		if(propietario != null) {
-			this.propietario = propietario;
+	public void setOwner(User owner) {
+		if(owner != null) {
+			this.owner = owner;
 		}	
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="propietario_id", nullable = false)
-	public User getPropietario() {
-		return this.propietario;
+	@JoinColumn(name="owner_id", nullable = false)
+	public User getOwner() {
+		return this.owner;
 	}
 	
 	
-	public void setStories(Set<StoryCard> stories) {
-		this.stories = stories;
+	public void setStoryCards(Set<StoryCard> stories) {
+		this.storyCards = stories;
 	}
 	
 	@ManyToMany()
 	@JoinTable(name = "story_card_note_card", joinColumns = {@JoinColumn(name="note_card_id")}, inverseJoinColumns = {@JoinColumn(name="story_card_id")})
-	public Set<StoryCard> getStories() {
-		return stories;
+	public Set<StoryCard> getStoryCards() {
+		return storyCards;
 	}
 	
 

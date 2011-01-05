@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="user")
+@Table(name="users") // No se puede utilizar la tabla user en postgres ya que es una palabra reservada ver: http://stackoverflow.com/questions/4350874/unable-to-use-table-named-user-in-postgresql-hibernate
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = -860888016607739375L;
@@ -43,8 +43,8 @@ public class User implements Serializable {
 		this.id = id;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="usuarioIdSeq")
-	@SequenceGenerator(name="usuarioIdSeq", sequenceName="usuario_id_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="userIdSeq")
+	@SequenceGenerator(name="userIdSeq", sequenceName="user_id_seq")
 	public Integer getId() {
 		return id;
 	}	
@@ -76,7 +76,7 @@ public class User implements Serializable {
 		}
 		
 	}
-	@Column(nullable = false, length=100)
+	@Column(name="first_name", nullable = false, length=100)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -85,7 +85,7 @@ public class User implements Serializable {
 			this.lastName = lastName.trim();
 		}
 	}
-	@Column(nullable = false, length=100)
+	@Column(name="last_name", nullable = false, length=100)
 	public String getLastName() {
 		return lastName;
 	}
@@ -155,7 +155,7 @@ public class User implements Serializable {
 	}
 	
 	@ManyToMany()
-	@JoinTable(name = "user_role", joinColumns = {@JoinColumn(name="user_id")}, inverseJoinColumns = {@JoinColumn(name="role_id")})		
+	@JoinTable(name = "users_role", joinColumns = {@JoinColumn(name="users_id")}, inverseJoinColumns = {@JoinColumn(name="role_id")})		
 	public List<Role> getRoles() {
 		return roles;
 	}

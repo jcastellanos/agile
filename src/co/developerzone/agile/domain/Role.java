@@ -35,8 +35,8 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="rolIdSeq")
-	@SequenceGenerator(name="rolIdSeq", sequenceName="rol_id_seq")
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="roleIdSeq")
+	@SequenceGenerator(name="roleIdSeq", sequenceName="role_id_seq")
 	public Integer getId() {
 		return id;
 	}
@@ -85,7 +85,7 @@ public class Role implements Serializable {
 	}
 	
 	@ManyToMany()
-	@JoinTable(name = "user_role", joinColumns = {@JoinColumn(name="role_id")}, inverseJoinColumns = {@JoinColumn(name="user_id")})		
+	@JoinTable(name = "users_role", joinColumns = {@JoinColumn(name="role_id")}, inverseJoinColumns = {@JoinColumn(name="users_id")})		
 	public Set<User> getUsers() {
 		return users;
 	}

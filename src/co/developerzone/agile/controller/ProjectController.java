@@ -3,6 +3,7 @@ package co.developerzone.agile.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.zkoss.zk.ui.Component;
@@ -24,8 +25,8 @@ import org.zkoss.zul.event.PagingEvent;
 import co.developerzone.agile.domain.Project;
 import co.developerzone.agile.domain.User;
 import co.developerzone.agile.util.MessageboxUtil;
-import co.developerzone.service.ProyectoService;
-import co.developerzone.service.UsuarioService;
+import co.developerzone.service.ProjectService;
+import co.developerzone.service.UserService;
 
 public class ProjectController extends GenericForwardComposer {
 
@@ -46,8 +47,9 @@ public class ProjectController extends GenericForwardComposer {
 		try {
 			super.doAfterCompose(comp);
 			// Cargamos la cantidad de campuseros en el paginador
+			HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
 			paging.setPageSize(registrosPorPagina);
-			paging.setTotalSize(ProyectoService.countAll());
+			paging.setTotalSize(ProjectService.countAll(request));
 			paging.addEventListener("onPaging", new EventListener() {
 				public void onEvent(Event event) throws Exception {
 					// TODO Auto-generated method stub
@@ -72,7 +74,7 @@ public class ProjectController extends GenericForwardComposer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		reset();
+		//reset();
 		
 	}
 	
@@ -85,8 +87,9 @@ public class ProjectController extends GenericForwardComposer {
 	}
 	
 	public List<Project> getAllItems() {	
+		HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
 		int inicio = paginaActual * registrosPorPagina;
-		return ProyectoService.findAll(inicio, registrosPorPagina);
+		return ProjectService.findAll(request, inicio, registrosPorPagina);
 	}
 	
 	public void onClick$nuevo() {	
@@ -98,15 +101,10 @@ public class ProjectController extends GenericForwardComposer {
 		code.setFocus(true);		
 	}
 
-	public void onClick$guardar() {		 
-		User usuario = UsuarioService.getLoggedUser((HttpServletRequest)Executions.getCurrent().getNativeRequest());
-		String tipo = null;
+	public void onClick$save() {		
+		HttpServletRequest request = (HttpServletRequest) desktop.getExecution().getNativeRequest();
 		if(current == null || current.getId() == null) {
 			current = new Project();
-			current.setOwner(usuario);
-			current.setCreated(new Date());
-			
-			
 		}	
 		current.setCode(code.getValue());
 		current.setName(name.getValue());
@@ -114,7 +112,7 @@ public class ProjectController extends GenericForwardComposer {
 		
 		if(current != null) {
 			try {
-				current = ProyectoService.save(current);
+				current = ProjectService.save(request, current);
 				save.setDisabled(true);
 			} catch(javax.persistence.RollbackException rEx) {
 				if(rEx.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {

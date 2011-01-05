@@ -8,7 +8,7 @@ import co.developerzone.agile.dao.GenericDAO;
 import co.developerzone.agile.dao.GenericJpaDAO;
 import co.developerzone.agile.domain.User;
 
-public class UsuarioService {
+public class UserService {
 
 	/**
 	 * Retorna el Usuario logueado

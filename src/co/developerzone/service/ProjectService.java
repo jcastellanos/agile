@@ -6,7 +6,7 @@ import co.developerzone.agile.dao.GenericDAO;
 import co.developerzone.agile.dao.GenericJpaDAO;
 import co.developerzone.agile.domain.Project;
 
-public class ProyectoService {
+public class ProjectService {
 	
 	public static int countAll() {
 		GenericDAO<Project> dao = new GenericJpaDAO<Project>(Project.class);

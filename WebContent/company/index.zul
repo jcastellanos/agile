@@ -1,0 +1,83 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<window id="win"  width="100%" title="Compañias" border="normal" apply="co.developerzone.agile.controller.CompanyController">
+	<vbox  width="100%">
+		<menubar>
+           <menu label="Company">
+               <menupopup>
+                   <menuitem id="nuevo" label="Nuevo" tooltiptext="Crear una nueva compañia" />         
+                   <menuitem id="eliminar" label="Eliminar" tooltiptext="Eliminar compañia" />
+                   <menuseparator/>
+                   <menuitem label="Menú principal" href="/"/>
+                   <menuseparator/>
+                   <menuitem label="Salir" href="/j_spring_security_logout"/>
+               </menupopup>
+           </menu>
+           <menuitem label="Buscar" />
+           <menu label="Ayuda">
+               <menupopup>
+                   <menuitem label="Indice"/>
+                   <menu label="Acerca de">
+                       <menupopup>
+                           <menuitem label="Acerca de Platero"/>
+                       </menupopup>
+                   </menu>
+               </menupopup>
+           </menu>
+       </menubar>
+
+		<menupopup id="proyectoMenuPopup"> 
+			<menuitem label="Nuevo" forward="onClick=nuevo.onClick" tooltiptext="Crear un nuevo proyecto" /> 
+			<menuitem label="Eliminar" forward="onClick=eliminar.onClick" tooltiptext="Eliminar proyecto"/>
+		</menupopup>
+		<tablelayout columns="3" width="100%">
+			<tablechildren width="64%">
+			<panel >
+				<panelchildren>
+				<listbox id="box" multiple="true" rows="20" model="@{win$composer.allItems, load-after='save.onClick'}" selectedItem="@{win$composer.current}" >
+					<listhead>
+						<listheader label="Id" width="10%"/>
+						<listheader label="Nombre"  width="40%"/>
+					</listhead>		
+					<listitem self="@{each='item'}" value="@{item}" context="proyectoMenuPopup">			
+						<listcell label="@{item.id}" />
+						<listcell label="@{item.name}" />
+					</listitem>
+				</listbox>
+				<paging id="paging" />
+				</panelchildren>
+			</panel>
+			</tablechildren>
+			<tablechildren width="1%">
+			<panel>
+			<panelchildren>
+			</panelchildren>
+			</panel>
+			</tablechildren>
+			
+			<tablechildren width="35%">
+			<panel>
+			<panelchildren>
+				
+
+               <grid >
+               <rows>
+               	<row>
+               ID: <intbox id="id" cols="5" readonly="true"  />
+               </row>
+               <row>Nombre: <textbox id="name" cols="40" readonly="true" maxlength="200" constraint="no empty"/></row>
+               <row><label /> <button id="save" label="Guardar" width="36px" height="24px" disabled="true" /></row>
+               </rows>
+               </grid>
+                      
+				
+			</panelchildren>
+			</panel>
+			</tablechildren>
+		</tablelayout>
+		
+		
+		
+			
+	</vbox>
+	
+</window>
